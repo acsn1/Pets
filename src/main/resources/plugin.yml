@@ -1,0 +1,5 @@
+name: Pets
+version: '${project.version}'
+main: org.acsn1.pets.Pets
+api-version: 1.19
+authors: [ acsn1 ]
