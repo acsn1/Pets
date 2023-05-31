@@ -2,6 +2,7 @@ package org.acsn1.pets;
 
 import org.acsn1.pets.manager.CommandManager;
 import org.acsn1.pets.manager.ListenerManager;
+import org.acsn1.pets.manager.PPetManager;
 import org.acsn1.pets.manager.PetManager;
 import org.acsn1.pets.utils.ChatUtils;
 import org.bukkit.Bukkit;
@@ -13,6 +14,7 @@ public final class Pets extends JavaPlugin {
     private PetManager petManager;
     private ListenerManager listenerManager;
     private CommandManager commandManager;
+    private PPetManager pPetManager;
 
 
     @Override
@@ -42,6 +44,11 @@ public final class Pets extends JavaPlugin {
         petManager = new PetManager();
         listenerManager = new ListenerManager();
         commandManager = new CommandManager();
+        petManager = new PetManager();
+        pPetManager = new PPetManager();
     }
+
+    public PetManager getPetManager() { return petManager; }
+    public PPetManager getPPetManager() { return pPetManager; }
 
 }

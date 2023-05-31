@@ -1,5 +1,6 @@
 package org.acsn1.pets.object.base;
 
+import org.acsn1.pets.Pets;
 import org.bukkit.Material;
 
 import java.util.List;
@@ -69,5 +70,9 @@ public class Pet {
 
     public void setHeadValue(String headValue) {
         this.headValue = headValue;
+    }
+
+    public void delete() {
+        Pets.getInstance().getPetManager().deletePet(name);
     }
 }
