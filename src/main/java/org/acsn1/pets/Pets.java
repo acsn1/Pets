@@ -6,6 +6,8 @@ import org.acsn1.pets.manager.PPetManager;
 import org.acsn1.pets.manager.PetManager;
 import org.acsn1.pets.utils.ChatUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Pets extends JavaPlugin {
@@ -27,7 +29,7 @@ public final class Pets extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        stop();
     }
 
     public static Pets getInstance() {
@@ -37,6 +39,18 @@ public final class Pets extends JavaPlugin {
     private void init() {
         loadManagers();
         Bukkit.getConsoleSender().sendMessage(ChatUtils.translateColor("&a[Pets] has finished loading!"));
+    }
+
+    private void stop() {
+        for(World w : Bukkit.getWorlds()) {
+            for(Entity en : w.getEntities()) {
+                if(en.getCustomName() != null) {
+                    if(en.getCustomName().contains("Pet")) {
+                        en.remove();
+                    }
+                }
+            }
+        }
     }
 
 

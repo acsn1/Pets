@@ -25,7 +25,7 @@ public class Pet {
     }
 
     public String getName() {
-        return getName();
+        return name;
     }
 
     public void setName(String name) {

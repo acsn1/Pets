@@ -50,7 +50,7 @@ public class PetManager {
 
         String itemName = "&a"+ name + " Pet";
 
-        pet = new Pet(name, boostType, Material.CREEPER_SPAWN_EGG, itemName
+        pet = new Pet(name, boostType, Material.GRASS, itemName
         , lore, "0");
 
         pets.add(pet);

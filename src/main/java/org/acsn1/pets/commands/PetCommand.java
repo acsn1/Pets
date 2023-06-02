@@ -61,35 +61,28 @@ public class PetCommand implements UCommand {
                 if(args[0].equalsIgnoreCase("create")) {
                     String petName = args[1];
                     BoostType boostType;
-                    try{
+                    try {
                         boostType = BoostType.valueOf(args[2]);
 
                         Pet pet = Pets.getInstance().getPetManager().getPet(petName);
 
-                        if(pet != null) {
+                        if (pet != null) {
                             sender.sendMessage(ChatUtils.translateColor("&cPet " + petName + " already exists."));
                             return;
                         }
 
                         Pets.getInstance().getPetManager().createPet(petName, boostType);
                         sender.sendMessage(ChatUtils.translateColor("&ePet " + petName + " has been created."));
-                    } catch(Exception ex) {
+                    } catch (Exception ex) {
                         sender.sendMessage(ChatUtils.translateColor("&cBoost type " + args[2] + " does not exist."));
                     }
-            } else{
-                    sender.sendMessage(invalidArgs);
-                    return;
-                }
-        }
-
-            if(args.length == 4) {
-                if(args[0].equalsIgnoreCase("give")) {
-                    Player t = Bukkit.getPlayer(args[1]);
-                    if(t==null) {
-                        sender.sendMessage(ChatUtils.translateColor("&c" + args[1] + " is currently offline."));
-                        return;
-                    }
-                    String name = args[2];
+                } else if(args[0].equalsIgnoreCase("give")) {
+                        Player t = Bukkit.getPlayer(args[1]);
+                        if(t==null) {
+                            sender.sendMessage(ChatUtils.translateColor("&c" + args[1] + " is currently offline."));
+                            return;
+                        }
+                        String name = args[2];
 
                         Pet pet = Pets.getInstance().getPetManager().getPet(name);
 
@@ -98,18 +91,23 @@ public class PetCommand implements UCommand {
                             return;
                         }
 
-                    ItemStack egg = new ItemBuilder(pet.getMaterial(), 1)
-                            .setName(pet.getItemName())
-                            .setLore(pet.getLore())
-                            .addEnchant(Enchantment.DURABILITY, 1)
-                            .build();
+                        ItemStack egg = new ItemBuilder(pet.getMaterial(), 1)
+                                .setName(pet.getItemName())
+                                .setLore(pet.getLore())
+                                .addEnchant(Enchantment.DURABILITY, 1).hideAttributes().hideEnchants()
+                                .build();
 
                         t.getInventory().addItem(egg);
                         t.sendMessage(ChatUtils.translateColor("&eYou have been received a " + name + " pet!"));
                         sender.sendMessage(ChatUtils.translateColor("&eYou have given " + t.getName() + " a " + name + " pet!"));
 
+                    } else{
+
+                    sender.sendMessage(invalidArgs);
+                    return;
                 }
-            }
+        }
+
 
     }
 
