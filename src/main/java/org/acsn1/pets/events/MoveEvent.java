@@ -16,7 +16,7 @@ public class MoveEvent implements Listener {
         if(event.getFrom().getYaw() == event.getTo().getYaw()) return;
         if(event.getFrom().getPitch() == event.getTo().getPitch()) return;
 
-        Pets.getInstance().getPPetManager().getLocSaves().get(player.getUniqueId()).add(player.getLocation());
+        Pets.getInstance().getPPetManager().getLocSaves().put(player.getUniqueId(), player.getLocation().add(1.0,0,0.7));
     }
 
 }

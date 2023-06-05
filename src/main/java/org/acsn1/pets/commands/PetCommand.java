@@ -2,6 +2,7 @@ package org.acsn1.pets.commands;
 
 import org.acsn1.glibrary.items.ItemBuilder;
 import org.acsn1.pets.Pets;
+import org.acsn1.pets.object.PlayerPet;
 import org.acsn1.pets.object.base.BoostType;
 import org.acsn1.pets.object.base.Pet;
 import org.acsn1.pets.object.base.UCommand;
@@ -38,7 +39,28 @@ public class PetCommand implements UCommand {
             sender.sendMessage(ChatUtils.translateColor("&e/pet create <name> <boost_type> &8- &fcreate a pet."));
             sender.sendMessage(ChatUtils.translateColor("&e/pet delete <name> &8- &fdelete a pet."));
             sender.sendMessage(ChatUtils.translateColor("&e/pet give <player> <type> &8- &fgive a pet to a player."));
+            sender.sendMessage(ChatUtils.translateColor("&e/pet summon &8- &fto spawn your saved pet."));
+            sender.sendMessage(ChatUtils.translateColor("&e/pet namechange <name> &8- &fto change your active pet's name."));
             sender.sendMessage("");
+        }
+
+        if(args.length == 1) {
+            if(args[0].equalsIgnoreCase("summon")) {
+                if(!(sender instanceof Player)) return;
+                Player p = (Player) sender;
+            PlayerPet ppet = Pets.getInstance().getPPetManager().getPlayerPet(p.getUniqueId());
+
+            if(ppet != null) {
+                p.sendMessage(ChatUtils.translateColor("&cYou have an active pet!"));
+                return;
+            }
+
+            ppet = Pets.getInstance().getPPetManager().getPetFromFile(p.getUniqueId());
+            ppet.summon(p);
+
+            } else{
+                sender.sendMessage(invalidArgs);
+            }
         }
 
         if(args.length == 2) {
@@ -51,7 +73,23 @@ public class PetCommand implements UCommand {
                 }
                 pet.delete();
                 sender.sendMessage(ChatUtils.translateColor("&ePet " + petName + " has been deleted."));
-            } else{
+            }
+            else if(args[0].equalsIgnoreCase("namechange")) {
+
+                if(!(sender instanceof Player)) return;
+                Player p = (Player) sender;
+                PlayerPet ppet = Pets.getInstance().getPPetManager().getPlayerPet(p.getUniqueId());
+                if(ppet==null) {
+                    p.sendMessage(ChatUtils.translateColor("&cYou currently do not have any active pet."));
+                    return;
+                }
+                String petName = args[1];
+                ppet.setPetName(ChatUtils.translateColor(petName));
+                ppet.getEntity().setCustomName(ChatUtils.translateColor(petName));
+                ppet.save();
+                p.sendMessage(ChatUtils.translateColor("&eYou have changed your pet's name to&r "+petName+"&e!"));
+
+            } else {
                 sender.sendMessage(invalidArgs);
                 return;
             }
